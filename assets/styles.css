@@ -612,6 +612,18 @@ h3 {
   font-size: .94rem;
 }
 
+.char-counter {
+  justify-self: end;
+  margin-top: -2px;
+  color: var(--subtle);
+  font-size: .78rem;
+  font-weight: 700;
+}
+
+.char-counter.is-full {
+  color: var(--gold);
+}
+
 .code-form [hidden] {
   display: none !important;
 }

@@ -63,7 +63,43 @@ if (codeForm) {
     wifiSsidError: codeForm.dataset.wifiSsidError || "Please enter a Wi-Fi name.",
     wifiPasswordError: codeForm.dataset.wifiPasswordError || "Please enter a Wi-Fi password or choose no password.",
     phoneDigitsError: codeForm.dataset.phoneDigitsError || "Phone numbers may contain digits and simple separators only.",
-    phoneLengthError: codeForm.dataset.phoneLengthError || "Please enter a valid phone number with 6 to 15 digits."
+    phoneLengthError: codeForm.dataset.phoneLengthError || "Please enter a valid phone number with 6 to 15 digits.",
+    characterCounter: codeForm.dataset.characterCounter || "{used}/{max} characters · {remaining} left"
+  };
+
+  const formatTemplate = (template, values) => template.replace(/\{(\w+)\}/g, (_, key) => values[key] ?? "");
+  const characterCounters = new WeakMap();
+
+  const updateCharacterCounter = (field) => {
+    const counter = characterCounters.get(field);
+    if (!counter || field.maxLength <= 0) return;
+
+    const max = field.maxLength;
+    const used = field.value.length;
+    const remaining = Math.max(0, max - used);
+    counter.textContent = formatTemplate(messages.characterCounter, { used, max, remaining });
+    counter.classList.toggle("is-full", remaining === 0 && used > 0);
+  };
+
+  const setupCharacterCounters = () => {
+    codeForm.querySelectorAll("input[maxlength], textarea[maxlength]").forEach((field) => {
+      if (field.type === "hidden" || field.type === "checkbox" || field.type === "radio" || field.maxLength <= 0) return;
+      const label = field.closest("label");
+      if (!label) return;
+
+      const counter = document.createElement("span");
+      counter.className = "char-counter";
+      if (field.id) {
+        counter.id = `${field.id}-counter`;
+        const describedBy = new Set((field.getAttribute("aria-describedby") || "").split(/\s+/).filter(Boolean));
+        describedBy.add(counter.id);
+        field.setAttribute("aria-describedby", [...describedBy].join(" "));
+      }
+
+      label.appendChild(counter);
+      characterCounters.set(field, counter);
+      updateCharacterCounter(field);
+    });
   };
 
   const setStatus = (message, isError = false) => {
@@ -263,7 +299,7 @@ if (codeForm) {
     }
   }
 
-  const formatBarcodeMessage = (template, values) => template.replace(/\{(\w+)\}/g, (_, key) => values[key] ?? "");
+  const formatBarcodeMessage = (template, values) => formatTemplate(template, values);
 
   const normalizeBarcodeValue = () => {
     const format = barcodeFormatSelect?.value || "CODE128";
@@ -529,8 +565,13 @@ if (codeForm) {
     drawCode();
   });
 
+  setupCharacterCounters();
+
   codeForm.querySelectorAll("input, textarea, select").forEach((element) => {
-    element.addEventListener("input", scheduleRender);
+    element.addEventListener("input", () => {
+      updateCharacterCounter(element);
+      scheduleRender();
+    });
     element.addEventListener("change", () => {
       syncFields();
       scheduleRender();
