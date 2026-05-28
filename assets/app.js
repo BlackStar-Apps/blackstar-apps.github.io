@@ -57,6 +57,7 @@ if (codeForm) {
     barcodeLengthError: codeForm.dataset.barcodeLengthError || "{format} needs {base} or {full} digits.",
     barcodeChecksumError: codeForm.dataset.barcodeChecksumError || "{format} check digit does not match.",
     barcodeCode128Error: codeForm.dataset.barcodeCode128Error || "Code 128 supports letters, numbers and common symbols.",
+    barcodeCode128LengthError: codeForm.dataset.barcodeCode128LengthError || "Code 128 is limited to 64 characters so the barcode stays readable.",
     urlError: codeForm.dataset.urlError || "Please enter a valid website address.",
     emailError: codeForm.dataset.emailError || "Please enter a valid email address.",
     wifiSsidError: codeForm.dataset.wifiSsidError || "Please enter a Wi-Fi name.",
@@ -287,8 +288,14 @@ if (codeForm) {
       throw new BarcodeValidationError(formatBarcodeMessage(messages.barcodeLengthError, values));
     }
 
-    if (format === "CODE128" && /[^\x20-\x7E]/.test(value)) {
-      throw new BarcodeValidationError(messages.barcodeCode128Error);
+    if (format === "CODE128") {
+      if (value.length > 64) {
+        throw new BarcodeValidationError(messages.barcodeCode128LengthError);
+      }
+
+      if (/[^\x20-\x7E]/.test(value)) {
+        throw new BarcodeValidationError(messages.barcodeCode128Error);
+      }
     }
 
     return value;

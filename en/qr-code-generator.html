@@ -52,7 +52,7 @@
       <div class="tool-panel">
         <p class="section-kicker">Web tool</p>
         <h2 id="code-tool-title">Create code</h2>
-        <form id="code-generator" class="qr-form code-form" data-empty-output="Your code will appear here." data-empty-status="No content entered yet." data-success-qr-status="QR code was created locally in your browser." data-success-barcode-status="Barcode was created locally in your browser." data-error-output="The content is too long or could not be created." data-error-status="Please check your input." data-barcode-error-status="The barcode content does not match the selected barcode type." data-canvas-label="Generated code" data-download-name="blackstar-code.png" data-payload-empty="No code content generated yet." data-payload-qr-title="Content inside the QR code" data-payload-barcode-title="Content inside the barcode" data-barcode-digits-only="{format} accepts digits only." data-barcode-length-error="{format} needs {base} or {full} digits." data-barcode-checksum-error="The {format} check digit does not match." data-barcode-code128-error="Code 128 supports letters, numbers and common symbols. Umlauts or emoji are not suitable." data-url-error="Please enter a valid website address." data-email-error="Please enter a valid email address." data-wifi-ssid-error="Please enter a Wi-Fi name." data-wifi-password-error="Please enter a Wi-Fi password or choose “No password”." data-phone-digits-error="Phone numbers may contain digits and simple separators only." data-phone-length-error="Please enter a valid phone number with 6 to 15 digits.">
+        <form id="code-generator" class="qr-form code-form" data-empty-output="Your code will appear here." data-empty-status="No content entered yet." data-success-qr-status="QR code was created locally in your browser." data-success-barcode-status="Barcode was created locally in your browser." data-error-output="The content is too long or could not be created." data-error-status="Please check your input." data-barcode-error-status="The barcode content does not match the selected barcode type." data-canvas-label="Generated code" data-download-name="blackstar-code.png" data-payload-empty="No code content generated yet." data-payload-qr-title="Content inside the QR code" data-payload-barcode-title="Content inside the barcode" data-barcode-digits-only="{format} accepts digits only." data-barcode-length-error="{format} needs {base} or {full} digits." data-barcode-checksum-error="The {format} check digit does not match." data-barcode-code128-error="Code 128 supports letters, numbers and common symbols. Umlauts or emoji are not suitable." data-barcode-code128-length-error="Code 128 is limited to 64 characters so the barcode stays readable." data-url-error="Please enter a valid website address." data-email-error="Please enter a valid email address." data-wifi-ssid-error="Please enter a Wi-Fi name." data-wifi-password-error="Please enter a Wi-Fi password or choose “No password”." data-phone-digits-error="Phone numbers may contain digits and simple separators only." data-phone-length-error="Please enter a valid phone number with 6 to 15 digits.">
           <div class="form-grid">
             <label>
               Code type
@@ -85,11 +85,11 @@
           </div>
 
           <div class="form-grid">
-            <label>
+            <label class="wide-field">
               Optional title
               <input id="code-title" name="code-title" maxlength="80" placeholder="Product, link or note">
             </label>
-            <label>
+            <label class="wide-field">
               Optional description
               <textarea id="code-description" name="code-description" rows="3" maxlength="220" placeholder="Short text for the preview"></textarea>
             </label>
@@ -122,14 +122,17 @@
                 <input id="wifi-hidden" name="wifi-hidden" type="checkbox">
                 Hidden network
               </label>
+              <p class="field-hint wide-field">
+                Enable this only if the Wi-Fi network is not visible in the normal network list.
+              </p>
             </div>
 
             <div class="form-grid" data-qr-panel="email" hidden>
-              <label>
+              <label class="wide-field">
                 Email address
                 <input id="email-address" name="email-address" type="email" maxlength="120" placeholder="name@example.com">
               </label>
-              <label>
+              <label class="wide-field">
                 Subject
                 <input id="email-subject" name="email-subject" maxlength="120" placeholder="Optional">
               </label>
@@ -176,11 +179,11 @@
           <div data-mode-panel="barcode" hidden>
             <label>
               Barcode content
-              <input id="barcode-content" name="barcode-content" maxlength="80" placeholder="ITEM-2026-001">
+              <input id="barcode-content" name="barcode-content" maxlength="64" placeholder="ITEM-2026-001">
             </label>
             <p class="field-hint">
-              Code 128 is useful for internal item numbers. EAN-13, EAN-8, UPC-A and ITF-14
-              use digits only; if the check digit is missing, it is added automatically.
+              Code 128 is useful for internal item numbers and simple text up to 64 characters.
+              EAN-13, EAN-8, UPC-A and ITF-14 use digits only; if the check digit is missing, it is added automatically.
             </p>
           </div>
 
