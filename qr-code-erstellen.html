@@ -163,7 +163,7 @@
           </div>
 
           <div class="form-grid">
-            <label>
+            <label class="wide-field">
               Ausgabeformat
               <select id="qr-size" name="qr-size">
                 <option value="512">Kompakt (512 px)</option>
@@ -172,18 +172,6 @@
                 <option value="1536">Druck (1536 px)</option>
               </select>
             </label>
-            <label data-mode-field="qr">
-              Fehlerkorrektur
-              <select id="qr-level" name="qr-level">
-                <option value="M" selected>Normal</option>
-                <option value="Q">Hoch</option>
-                <option value="H">Sehr hoch</option>
-              </select>
-            </label>
-            <p class="field-hint wide-field" data-mode-field="qr">
-              Fehlerkorrektur macht QR-Codes robuster, wenn sie leicht beschädigt, verdeckt oder schlecht gedruckt sind.
-              Höhere Stufen können den QR-Code dichter machen; „Normal“ ist für die meisten Fälle passend.
-            </p>
           </div>
 
           <p class="tool-note">

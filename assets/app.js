@@ -30,7 +30,6 @@ if (codeForm) {
   const qrTypeSelect = $("#qr-type");
   const qrContent = $("#qr-content");
   const qrSizeSelect = $("#qr-size");
-  const qrLevelSelect = $("#qr-level");
   const titleInput = $("#code-title");
   const descriptionInput = $("#code-description");
   const barcodeFormatSelect = $("#barcode-format");
@@ -196,10 +195,32 @@ if (codeForm) {
     return value;
   };
 
+  const chooseQrLevels = (payload) => {
+    const length = [...payload].length;
+    if (length <= 120) return ["Q", "M", "L"];
+    if (length <= 400) return ["M", "Q", "L"];
+    return ["M", "L", "Q"];
+  };
+
   const createQrCanvas = (payload, requestedSize) => {
-    const qr = qrcode(0, qrLevelSelect?.value || "M");
-    qr.addData(payload);
-    qr.make();
+    let qr = null;
+    let lastError = null;
+
+    for (const level of chooseQrLevels(payload)) {
+      try {
+        qr = qrcode(0, level);
+        qr.addData(payload);
+        qr.make();
+        break;
+      } catch (error) {
+        qr = null;
+        lastError = error;
+      }
+    }
+
+    if (!qr) {
+      throw lastError || new Error("QR render failed");
+    }
 
     const quietZone = 4;
     const moduleCount = qr.getModuleCount();
