@@ -553,7 +553,8 @@ h3 {
 }
 
 .qr-form textarea,
-.qr-form select {
+.qr-form select,
+.qr-form input {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -562,10 +563,19 @@ h3 {
   font: inherit;
 }
 
+.qr-form input {
+  min-height: 48px;
+  padding: 0 12px;
+}
+
 .qr-form textarea {
   min-height: 170px;
   padding: 14px;
   resize: vertical;
+}
+
+.qr-form textarea[rows="3"] {
+  min-height: 110px;
 }
 
 .qr-form select {
@@ -577,6 +587,33 @@ h3 {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
+}
+
+.wide-field {
+  grid-column: 1 / -1;
+}
+
+.inline-check {
+  display: flex !important;
+  align-items: center;
+  gap: 10px !important;
+  min-height: 48px;
+  align-self: end;
+}
+
+.inline-check input {
+  width: 20px;
+  min-height: 20px;
+}
+
+.field-hint {
+  margin: 10px 0 0;
+  color: var(--subtle);
+  font-size: .94rem;
+}
+
+.code-form [hidden] {
+  display: none !important;
 }
 
 .qr-output {

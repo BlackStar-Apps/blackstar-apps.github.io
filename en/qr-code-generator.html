@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Create a free QR code - BlackStar Apps</title>
-  <meta name="description" content="Create a simple QR code directly in your browser for free. Your input stays local and the QR code can be downloaded as a PNG.">
+  <title>Create free QR codes and barcodes - BlackStar Apps</title>
+  <meta name="description" content="Create QR codes and barcodes directly in your browser for free. Add an optional title and description. Your input stays local and can be downloaded as a PNG.">
   <link rel="canonical" href="https://blackstar-apps.de/en/qr-code-generator.html">
   <link rel="alternate" hreflang="de" href="https://blackstar-apps.de/qr-code-erstellen.html">
   <link rel="alternate" hreflang="en" href="https://blackstar-apps.de/en/qr-code-generator.html">
@@ -25,7 +25,7 @@
     </button>
     <nav id="site-nav" class="site-nav" aria-label="Main navigation">
       <a href="index.html#features">Features</a>
-      <a href="qr-code-generator.html" aria-current="page">Create QR</a>
+      <a href="qr-code-generator.html" aria-current="page">Create codes</a>
       <a href="index.html#designer">Designer</a>
       <a href="index.html#screenshots">Highlights</a>
       <a href="privacy.html">Privacy</a>
@@ -39,21 +39,125 @@
 
   <main>
     <section class="tool-hero">
-      <p class="eyebrow">Free QR code generator</p>
-      <h1>Create a QR code directly in your browser.</h1>
+      <p class="eyebrow">Free code generator</p>
+      <h1>Create QR codes and barcodes directly in your browser.</h1>
       <p>
-        Enter a text or link, check the preview and download the QR code as a PNG.
+        Choose QR code or barcode, add an optional title and description,
+        preview the result and download it as a PNG.
         Your input is processed locally in your browser.
       </p>
     </section>
 
-    <section class="section qr-tool" aria-labelledby="qr-tool-title">
+    <section class="section qr-tool" aria-labelledby="code-tool-title">
       <div class="tool-panel">
         <p class="section-kicker">Web tool</p>
-        <h2 id="qr-tool-title">Simple QR code</h2>
-        <form id="qr-generator" class="qr-form" data-empty-output="Your QR code will appear here." data-empty-status="No content entered yet." data-success-status="QR code was created locally in your browser." data-error-output="The content is too long or could not be created as a QR code." data-error-status="Please shorten the content or try a lower error correction level." data-canvas-label="Generated QR code" data-download-name="blackstar-qr-code.png">
-          <label for="qr-content">Text or URL</label>
-          <textarea id="qr-content" name="qr-content" rows="7" maxlength="1200" placeholder="https://blackstar-apps.de"></textarea>
+        <h2 id="code-tool-title">Create code</h2>
+        <form id="code-generator" class="qr-form code-form" data-empty-output="Your code will appear here." data-empty-status="No content entered yet." data-success-qr-status="QR code was created locally in your browser." data-success-barcode-status="Barcode was created locally in your browser." data-error-output="The content is too long or could not be created." data-error-status="Please check your input." data-barcode-error-status="The barcode content does not match the selected barcode type." data-canvas-label="Generated code" data-download-name="blackstar-code.png">
+          <div class="form-grid">
+            <label>
+              Code type
+              <select id="code-mode" name="code-mode">
+                <option value="qr" selected>QR code</option>
+                <option value="barcode">Barcode</option>
+              </select>
+            </label>
+            <label data-mode-field="qr">
+              QR content
+              <select id="qr-type" name="qr-type">
+                <option value="text" selected>Text</option>
+                <option value="url">Link / URL</option>
+                <option value="wifi">Wi-Fi</option>
+                <option value="email">Email</option>
+                <option value="phone">Phone</option>
+                <option value="sms">SMS</option>
+              </select>
+            </label>
+            <label data-mode-field="barcode" hidden>
+              Barcode type
+              <select id="barcode-format" name="barcode-format">
+                <option value="CODE128" selected>Code 128</option>
+                <option value="EAN13">EAN-13</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="form-grid">
+            <label>
+              Optional title
+              <input id="code-title" name="code-title" maxlength="80" placeholder="Product, link or note">
+            </label>
+            <label>
+              Optional description
+              <textarea id="code-description" name="code-description" rows="3" maxlength="220" placeholder="Short text for the preview"></textarea>
+            </label>
+          </div>
+
+          <div data-mode-panel="qr">
+            <label data-qr-panel="text url">
+              Text or URL
+              <textarea id="qr-content" name="qr-content" rows="5" maxlength="1200" placeholder="https://blackstar-apps.de"></textarea>
+            </label>
+
+            <div class="form-grid" data-qr-panel="wifi" hidden>
+              <label>
+                Wi-Fi name
+                <input id="wifi-ssid" name="wifi-ssid" maxlength="80" placeholder="My Wi-Fi">
+              </label>
+              <label>
+                Password
+                <input id="wifi-password" name="wifi-password" maxlength="80" placeholder="Optional">
+              </label>
+              <label>
+                Encryption
+                <select id="wifi-encryption" name="wifi-encryption">
+                  <option value="WPA" selected>WPA/WPA2</option>
+                  <option value="WEP">WEP</option>
+                  <option value="nopass">No password</option>
+                </select>
+              </label>
+              <label class="inline-check">
+                <input id="wifi-hidden" name="wifi-hidden" type="checkbox">
+                Hidden network
+              </label>
+            </div>
+
+            <div class="form-grid" data-qr-panel="email" hidden>
+              <label>
+                Email address
+                <input id="email-address" name="email-address" type="email" maxlength="120" placeholder="name@example.com">
+              </label>
+              <label>
+                Subject
+                <input id="email-subject" name="email-subject" maxlength="120" placeholder="Optional">
+              </label>
+              <label class="wide-field">
+                Message
+                <textarea id="email-body" name="email-body" rows="3" maxlength="500" placeholder="Optional"></textarea>
+              </label>
+            </div>
+
+            <div class="form-grid" data-qr-panel="phone sms" hidden>
+              <label>
+                Phone number
+                <input id="phone-number" name="phone-number" maxlength="40" placeholder="+49 123 456789">
+              </label>
+              <label data-qr-panel="sms" hidden>
+                SMS text
+                <textarea id="sms-message" name="sms-message" rows="3" maxlength="300" placeholder="Optional"></textarea>
+              </label>
+            </div>
+          </div>
+
+          <div data-mode-panel="barcode" hidden>
+            <label>
+              Barcode content
+              <input id="barcode-content" name="barcode-content" maxlength="80" placeholder="ITEM-2026-001">
+            </label>
+            <p class="field-hint">
+              Code 128 is useful for internal item numbers. EAN-13 needs 12 or 13 digits;
+              with 12 digits, the check digit is added automatically.
+            </p>
+          </div>
 
           <div class="form-grid">
             <label>
@@ -64,7 +168,7 @@
                 <option value="1024">1024 px</option>
               </select>
             </label>
-            <label>
+            <label data-mode-field="qr">
               Error correction
               <select id="qr-level" name="qr-level">
                 <option value="M" selected>Normal</option>
@@ -80,16 +184,16 @@
           </p>
 
           <div class="tool-actions">
-            <button class="button primary" type="submit">Create QR code</button>
+            <button class="button primary" type="submit">Create code</button>
             <a id="qr-download" class="button secondary disabled" href="#" aria-disabled="true">Download PNG</a>
           </div>
         </form>
       </div>
 
       <div class="qr-preview-card" aria-live="polite">
-        <p class="section-kicker">Highlights</p>
+        <p class="section-kicker">Preview</p>
         <div id="qr-output" class="qr-output">
-          <p>Your QR code will appear here.</p>
+          <p>Your code will appear here.</p>
         </div>
         <p id="qr-status" class="qr-status">No content entered yet.</p>
       </div>
@@ -98,7 +202,7 @@
     <section class="section cta">
       <div>
         <p class="section-kicker">More options</p>
-        <h2>Design, library and scanner in the free Android app.</h2>
+        <h2>Design, library, scanner and more code types in the free Android app.</h2>
       </div>
       <a class="button primary" href="https://play.google.com/store/apps/details?id=de.blackstar.qrscanner">View app on Google Play</a>
     </section>
@@ -107,7 +211,7 @@
   <footer class="site-footer">
     <p>&copy; <span id="year"></span> BlackStar Apps</p>
     <div>
-      <a href="qr-code-generator.html">Create QR</a>
+      <a href="qr-code-generator.html">Create codes</a>
       <a href="privacy.html">Privacy</a>
       <a href="legal.html">Legal</a>
       <a href="mailto:blackstar.apps@outlook.de">Contact</a>
@@ -116,6 +220,7 @@
 
   <script src="../assets/vendor/qrcode.js"></script>
   <script src="../assets/vendor/qrcode_UTF8.js"></script>
+  <script src="../assets/vendor/JsBarcode.all.min.js"></script>
   <script src="../assets/app.js"></script>
 </body>
 </html>

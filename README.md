@@ -25,12 +25,12 @@ http://localhost:8080
 ## Dateien
 
 - `index.html` - Startseite
-- `qr-code-erstellen.html` - kostenloser lokaler QR-Code-Generator
+- `qr-code-erstellen.html` - kostenloser lokaler QR-Code- und Barcode-Generator
 - `datenschutz.html` - Datenschutzerklaerung
 - `impressum.html` - Anbieterkennzeichnung
 - `en/` - englische Website-Version
 - `app-ads.txt` - AdMob-Verifizierung
 - `CNAME` - Custom Domain fuer GitHub Pages
 
-Der Web-Generator verwendet die lokal gebuendelte MIT-lizenzierte Bibliothek
-`qrcode-generator` von Kazuhiko Arase.
+Der Web-Generator verwendet die lokal gebuendelten MIT-lizenzierten Bibliotheken
+`qrcode-generator` von Kazuhiko Arase und `JsBarcode` von Johan Lindell.
