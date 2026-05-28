@@ -56,7 +56,13 @@ if (codeForm) {
     barcodeDigitsOnly: codeForm.dataset.barcodeDigitsOnly || "{format} accepts digits only.",
     barcodeLengthError: codeForm.dataset.barcodeLengthError || "{format} needs {base} or {full} digits.",
     barcodeChecksumError: codeForm.dataset.barcodeChecksumError || "{format} check digit does not match.",
-    barcodeCode128Error: codeForm.dataset.barcodeCode128Error || "Code 128 supports letters, numbers and common symbols."
+    barcodeCode128Error: codeForm.dataset.barcodeCode128Error || "Code 128 supports letters, numbers and common symbols.",
+    urlError: codeForm.dataset.urlError || "Please enter a valid website address.",
+    emailError: codeForm.dataset.emailError || "Please enter a valid email address.",
+    wifiSsidError: codeForm.dataset.wifiSsidError || "Please enter a Wi-Fi name.",
+    wifiPasswordError: codeForm.dataset.wifiPasswordError || "Please enter a Wi-Fi password or choose no password.",
+    phoneDigitsError: codeForm.dataset.phoneDigitsError || "Phone numbers may contain digits and simple separators only.",
+    phoneLengthError: codeForm.dataset.phoneLengthError || "Please enter a valid phone number with 6 to 15 digits."
   };
 
   const setStatus = (message, isError = false) => {
@@ -99,6 +105,12 @@ if (codeForm) {
     }
   };
 
+  const validationError = (message) => {
+    const error = new Error(message);
+    error.userMessage = message;
+    return error;
+  };
+
   const syncFields = () => {
     const mode = modeSelect?.value || "qr";
     const qrType = qrTypeSelect?.value || "text";
@@ -119,6 +131,63 @@ if (codeForm) {
 
   const encodeWifiValue = (value) => String(value || "").replace(/([\\;,":])/g, "\\$1");
 
+  const buildUrlPayload = (value) => {
+    if (!value) return "";
+    if (/\s/.test(value)) {
+      throw validationError(messages.urlError);
+    }
+
+    const normalized = /^[a-z][a-z0-9+.-]*:\/\//i.test(value) ? value : `https://${value}`;
+    let url;
+    try {
+      url = new URL(normalized);
+    } catch (error) {
+      throw validationError(messages.urlError);
+    }
+
+    if (!["http:", "https:"].includes(url.protocol) || !url.hostname.includes(".")) {
+      throw validationError(messages.urlError);
+    }
+
+    return url.href;
+  };
+
+  const validateEmailAddress = (address) => {
+    if (!address) return "";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(address)) {
+      throw validationError(messages.emailError);
+    }
+    return address;
+  };
+
+  const buildPhoneNumber = () => {
+    const rawPhone = $("#phone-number")?.value.trim() || "";
+    if (!rawPhone) return "";
+
+    if (/[^0-9\s()+./-]/.test(rawPhone)) {
+      throw validationError(messages.phoneDigitsError);
+    }
+
+    const countryCode = $("#phone-country")?.value || "+49";
+    let normalized = rawPhone.replace(/[\s()./-]/g, "");
+    if (normalized.startsWith("00")) {
+      normalized = `+${normalized.slice(2)}`;
+    } else if (!normalized.startsWith("+")) {
+      normalized = `${countryCode}${normalized.replace(/^0+/, "")}`;
+    }
+
+    if (!/^\+\d+$/.test(normalized)) {
+      throw validationError(messages.phoneDigitsError);
+    }
+
+    const digits = normalized.slice(1);
+    if (digits.length < 6 || digits.length > 15) {
+      throw validationError(messages.phoneLengthError);
+    }
+
+    return normalized;
+  };
+
   const buildQrPayload = () => {
     const type = qrTypeSelect?.value || "text";
     const value = qrContent?.value.trim() || "";
@@ -126,22 +195,25 @@ if (codeForm) {
     if (type === "text") return value;
 
     if (type === "url") {
-      if (!value) return "";
-      if (/^[a-z][a-z0-9+.-]*:/i.test(value)) return value;
-      return `https://${value}`;
+      return buildUrlPayload(value);
     }
 
     if (type === "wifi") {
       const ssid = $("#wifi-ssid")?.value.trim() || "";
-      if (!ssid) return "";
+      if (!ssid) {
+        throw validationError(messages.wifiSsidError);
+      }
       const password = $("#wifi-password")?.value || "";
       const encryption = $("#wifi-encryption")?.value || "WPA";
+      if (encryption !== "nopass" && !password) {
+        throw validationError(messages.wifiPasswordError);
+      }
       const hidden = $("#wifi-hidden")?.checked ? "true" : "false";
       return `WIFI:T:${encodeWifiValue(encryption)};S:${encodeWifiValue(ssid)};P:${encodeWifiValue(password)};H:${hidden};;`;
     }
 
     if (type === "email") {
-      const address = $("#email-address")?.value.trim() || "";
+      const address = validateEmailAddress($("#email-address")?.value.trim() || "");
       if (!address) return "";
       const params = new URLSearchParams();
       const subject = $("#email-subject")?.value.trim() || "";
@@ -153,12 +225,12 @@ if (codeForm) {
     }
 
     if (type === "phone") {
-      const phone = $("#phone-number")?.value.trim() || "";
+      const phone = buildPhoneNumber();
       return phone ? `tel:${phone}` : "";
     }
 
     if (type === "sms") {
-      const phone = $("#phone-number")?.value.trim() || "";
+      const phone = buildPhoneNumber();
       if (!phone) return "";
       const body = $("#sms-message")?.value.trim() || "";
       return `SMSTO:${phone}:${body}`;

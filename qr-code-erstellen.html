@@ -52,7 +52,7 @@
       <div class="tool-panel">
         <p class="section-kicker">Web-Tool</p>
         <h2 id="code-tool-title">Code erstellen</h2>
-        <form id="code-generator" class="qr-form code-form" data-empty-output="Dein Code erscheint hier." data-empty-status="Noch kein Inhalt eingegeben." data-success-qr-status="QR-Code wurde lokal im Browser erstellt." data-success-barcode-status="Barcode wurde lokal im Browser erstellt." data-error-output="Der Inhalt ist zu lang oder konnte nicht erstellt werden." data-error-status="Bitte prüfe deine Eingaben." data-barcode-error-status="Der Barcode-Inhalt passt nicht zum gewählten Barcode-Typ." data-canvas-label="Erzeugter Code" data-download-name="blackstar-code.png" data-payload-empty="Noch kein Code-Inhalt erzeugt." data-payload-qr-title="Inhalt im QR-Code" data-payload-barcode-title="Inhalt im Barcode" data-barcode-digits-only="{format} darf nur Ziffern enthalten." data-barcode-length-error="{format} benötigt {base} oder {full} Ziffern." data-barcode-checksum-error="Die Prüfziffer von {format} passt nicht." data-barcode-code128-error="Code 128 unterstützt Buchstaben, Zahlen und einfache Sonderzeichen. Umlaute oder Emojis sind nicht geeignet.">
+        <form id="code-generator" class="qr-form code-form" data-empty-output="Dein Code erscheint hier." data-empty-status="Noch kein Inhalt eingegeben." data-success-qr-status="QR-Code wurde lokal im Browser erstellt." data-success-barcode-status="Barcode wurde lokal im Browser erstellt." data-error-output="Der Inhalt ist zu lang oder konnte nicht erstellt werden." data-error-status="Bitte prüfe deine Eingaben." data-barcode-error-status="Der Barcode-Inhalt passt nicht zum gewählten Barcode-Typ." data-canvas-label="Erzeugter Code" data-download-name="blackstar-code.png" data-payload-empty="Noch kein Code-Inhalt erzeugt." data-payload-qr-title="Inhalt im QR-Code" data-payload-barcode-title="Inhalt im Barcode" data-barcode-digits-only="{format} darf nur Ziffern enthalten." data-barcode-length-error="{format} benötigt {base} oder {full} Ziffern." data-barcode-checksum-error="Die Prüfziffer von {format} passt nicht." data-barcode-code128-error="Code 128 unterstützt Buchstaben, Zahlen und einfache Sonderzeichen. Umlaute oder Emojis sind nicht geeignet." data-url-error="Bitte gib eine gültige Webadresse ein." data-email-error="Bitte gib eine gültige E-Mail-Adresse ein." data-wifi-ssid-error="Bitte gib einen WLAN-Namen ein." data-wifi-password-error="Bitte gib ein WLAN-Passwort ein oder wähle „Ohne Passwort“." data-phone-digits-error="Telefonnummern dürfen nur Ziffern und einfache Trennzeichen enthalten." data-phone-length-error="Bitte gib eine gültige Telefonnummer mit 6 bis 15 Ziffern ein.">
           <div class="form-grid">
             <label>
               Code-Art
@@ -141,8 +141,30 @@
 
             <div class="form-grid" data-qr-panel="phone sms" hidden>
               <label>
+                Ländervorwahl
+                <select id="phone-country" name="phone-country">
+                  <option value="+49" selected>Deutschland (+49)</option>
+                  <option value="+43">Österreich (+43)</option>
+                  <option value="+41">Schweiz (+41)</option>
+                  <option value="+31">Niederlande (+31)</option>
+                  <option value="+32">Belgien (+32)</option>
+                  <option value="+33">Frankreich (+33)</option>
+                  <option value="+39">Italien (+39)</option>
+                  <option value="+34">Spanien (+34)</option>
+                  <option value="+351">Portugal (+351)</option>
+                  <option value="+48">Polen (+48)</option>
+                  <option value="+420">Tschechien (+420)</option>
+                  <option value="+45">Dänemark (+45)</option>
+                  <option value="+46">Schweden (+46)</option>
+                  <option value="+47">Norwegen (+47)</option>
+                  <option value="+358">Finnland (+358)</option>
+                  <option value="+44">Vereinigtes Königreich (+44)</option>
+                  <option value="+1">USA / Kanada (+1)</option>
+                </select>
+              </label>
+              <label>
                 Telefonnummer
-                <input id="phone-number" name="phone-number" maxlength="40" placeholder="+49 123 456789">
+                <input id="phone-number" name="phone-number" inputmode="tel" autocomplete="tel-national" maxlength="40" placeholder="123 456789">
               </label>
               <label data-qr-panel="sms" hidden>
                 SMS-Text
