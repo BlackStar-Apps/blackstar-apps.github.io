@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Create a free QR code - BlackStar Apps</title>
+  <meta name="description" content="Create a simple QR code directly in your browser for free. Your input stays local and the QR code can be downloaded as a PNG.">
+  <link rel="canonical" href="https://blackstar-apps.de/en/qr-code-generator.html">
+  <link rel="alternate" hreflang="de" href="https://blackstar-apps.de/qr-code-erstellen.html">
+  <link rel="alternate" hreflang="en" href="https://blackstar-apps.de/en/qr-code-generator.html">
+  <link rel="alternate" hreflang="x-default" href="https://blackstar-apps.de/qr-code-erstellen.html">
+  <link rel="icon" href="../assets/img/app-icon.png">
+  <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="BlackStar QR Scanner home">
+      <img src="../assets/img/app-icon.png" alt="" width="40" height="40">
+      <span>BlackStar QR Scanner</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+      <a href="index.html#features">Features</a>
+      <a href="qr-code-generator.html" aria-current="page">Create QR</a>
+      <a href="index.html#designer">Designer</a>
+      <a href="index.html#screenshots">Screenshots</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="legal.html">Legal</a>
+    </nav>
+    <div class="language-switch" aria-label="Language">
+      <a href="../qr-code-erstellen.html">DE</a>
+      <a href="qr-code-generator.html" aria-current="true">EN</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="tool-hero">
+      <p class="eyebrow">Free QR code generator</p>
+      <h1>Create a QR code directly in your browser.</h1>
+      <p>
+        Enter a text or link, check the preview and download the QR code as a PNG.
+        Your input is processed locally in your browser.
+      </p>
+    </section>
+
+    <section class="section qr-tool" aria-labelledby="qr-tool-title">
+      <div class="tool-panel">
+        <p class="section-kicker">Web tool</p>
+        <h2 id="qr-tool-title">Simple QR code</h2>
+        <form id="qr-generator" class="qr-form" data-empty-output="Your QR code will appear here." data-empty-status="No content entered yet." data-success-status="QR code was created locally in your browser." data-error-output="The content is too long or could not be created as a QR code." data-error-status="Please shorten the content or try a lower error correction level." data-canvas-label="Generated QR code" data-download-name="blackstar-qr-code.png">
+          <label for="qr-content">Text or URL</label>
+          <textarea id="qr-content" name="qr-content" rows="7" maxlength="1200" placeholder="https://blackstar-apps.de"></textarea>
+
+          <div class="form-grid">
+            <label>
+              Size
+              <select id="qr-size" name="qr-size">
+                <option value="512">512 px</option>
+                <option value="768" selected>768 px</option>
+                <option value="1024">1024 px</option>
+              </select>
+            </label>
+            <label>
+              Error correction
+              <select id="qr-level" name="qr-level">
+                <option value="M" selected>Normal</option>
+                <option value="Q">High</option>
+                <option value="H">Very high</option>
+              </select>
+            </label>
+          </div>
+
+          <p class="tool-note">
+            Free and without server transfer. For business cards, logos, colors and templates,
+            the Android app gives you more design options.
+          </p>
+
+          <div class="tool-actions">
+            <button class="button primary" type="submit">Create QR code</button>
+            <a id="qr-download" class="button secondary disabled" href="#" aria-disabled="true">Download PNG</a>
+          </div>
+        </form>
+      </div>
+
+      <div class="qr-preview-card" aria-live="polite">
+        <p class="section-kicker">Preview</p>
+        <div id="qr-output" class="qr-output">
+          <p>Your QR code will appear here.</p>
+        </div>
+        <p id="qr-status" class="qr-status">No content entered yet.</p>
+      </div>
+    </section>
+
+    <section class="section cta">
+      <div>
+        <p class="section-kicker">More options</p>
+        <h2>Design, library and scanner in the free Android app.</h2>
+      </div>
+      <a class="button primary" href="https://play.google.com/store/apps/details?id=de.blackstar.qrscanner">View app on Google Play</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="year"></span> BlackStar Apps</p>
+    <div>
+      <a href="qr-code-generator.html">Create QR</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="legal.html">Legal</a>
+      <a href="mailto:blackstar.apps@outlook.de">Contact</a>
+    </div>
+  </footer>
+
+  <script src="../assets/vendor/qrcode.js"></script>
+  <script src="../assets/vendor/qrcode_UTF8.js"></script>
+  <script src="../assets/app.js"></script>
+</body>
+</html>

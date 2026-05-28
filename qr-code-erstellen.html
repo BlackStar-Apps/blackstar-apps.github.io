@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kostenlosen QR-Code erstellen - BlackStar Apps</title>
   <meta name="description" content="Erstelle kostenlos einen einfachen QR-Code direkt im Browser. Die Eingabe bleibt lokal und kann als PNG heruntergeladen werden.">
+  <link rel="canonical" href="https://blackstar-apps.de/qr-code-erstellen.html">
+  <link rel="alternate" hreflang="de" href="https://blackstar-apps.de/qr-code-erstellen.html">
+  <link rel="alternate" hreflang="en" href="https://blackstar-apps.de/en/qr-code-generator.html">
+  <link rel="alternate" hreflang="x-default" href="https://blackstar-apps.de/qr-code-erstellen.html">
   <link rel="icon" href="assets/img/app-icon.png">
   <link rel="stylesheet" href="assets/styles.css">
 </head>
@@ -27,6 +31,10 @@
       <a href="datenschutz.html">Datenschutz</a>
       <a href="impressum.html">Impressum</a>
     </nav>
+    <div class="language-switch" aria-label="Sprache">
+      <a href="qr-code-erstellen.html" aria-current="true">DE</a>
+      <a href="en/qr-code-generator.html">EN</a>
+    </div>
   </header>
 
   <main>
@@ -43,7 +51,7 @@
       <div class="tool-panel">
         <p class="section-kicker">Web-Tool</p>
         <h2 id="qr-tool-title">Einfacher QR-Code</h2>
-        <form id="qr-generator" class="qr-form">
+        <form id="qr-generator" class="qr-form" data-empty-output="Dein QR-Code erscheint hier." data-empty-status="Noch kein Inhalt eingegeben." data-success-status="QR-Code wurde lokal im Browser erstellt." data-error-output="Der Inhalt ist zu lang oder konnte nicht als QR-Code erstellt werden." data-error-status="Bitte kuerze den Inhalt oder versuche eine niedrigere Fehlerkorrektur." data-canvas-label="Erzeugter QR-Code" data-download-name="blackstar-qr-code.png">
           <label for="qr-content">Text oder URL</label>
           <textarea id="qr-content" name="qr-content" rows="7" maxlength="1200" placeholder="https://blackstar-apps.de"></textarea>
 

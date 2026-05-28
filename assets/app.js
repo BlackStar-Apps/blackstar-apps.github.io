@@ -30,6 +30,15 @@ if (qrForm) {
   const output = document.querySelector("#qr-output");
   const status = document.querySelector("#qr-status");
   const download = document.querySelector("#qr-download");
+  const messages = {
+    emptyOutput: qrForm.dataset.emptyOutput || "Your QR code will appear here.",
+    emptyStatus: qrForm.dataset.emptyStatus || "No content entered yet.",
+    successStatus: qrForm.dataset.successStatus || "QR code was created locally in your browser.",
+    errorOutput: qrForm.dataset.errorOutput || "The content is too long or could not be created as a QR code.",
+    errorStatus: qrForm.dataset.errorStatus || "Please shorten the content or try a lower error correction level.",
+    canvasLabel: qrForm.dataset.canvasLabel || "Generated QR code",
+    downloadName: qrForm.dataset.downloadName || "blackstar-qr-code.png"
+  };
 
   const setStatus = (message, isError = false) => {
     if (!status) return;
@@ -53,8 +62,8 @@ if (qrForm) {
     disableDownload();
 
     if (!value) {
-      output.innerHTML = "<p>Dein QR-Code erscheint hier.</p>";
-      setStatus("Noch kein Inhalt eingegeben.");
+      output.innerHTML = `<p>${messages.emptyOutput}</p>`;
+      setStatus(messages.emptyStatus);
       return;
     }
 
@@ -72,7 +81,7 @@ if (qrForm) {
       const canvas = document.createElement("canvas");
       canvas.width = canvasSize;
       canvas.height = canvasSize;
-      canvas.setAttribute("aria-label", "Erzeugter QR-Code");
+      canvas.setAttribute("aria-label", messages.canvasLabel);
 
       const ctx = canvas.getContext("2d");
       ctx.fillStyle = "#ffffff";
@@ -89,13 +98,14 @@ if (qrForm) {
 
       output.appendChild(canvas);
       download.href = canvas.toDataURL("image/png");
-      download.download = "blackstar-qr-code.png";
+      download.download = messages.downloadName;
       download.setAttribute("aria-disabled", "false");
       download.classList.remove("disabled");
-      setStatus("QR-Code wurde lokal im Browser erstellt.");
+      setStatus(messages.successStatus);
     } catch (error) {
-      output.innerHTML = "<p>Der Inhalt ist zu lang oder konnte nicht als QR-Code erstellt werden.</p>";
+      output.innerHTML = `<p>${messages.errorOutput}</p>`;
       setStatus("Bitte kürze den Inhalt oder versuche eine niedrigere Fehlerkorrektur.", true);
+      setStatus(messages.errorStatus, true);
     }
   };
 

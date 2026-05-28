@@ -28,6 +28,7 @@ http://localhost:8080
 - `qr-code-erstellen.html` - kostenloser lokaler QR-Code-Generator
 - `datenschutz.html` - Datenschutzerklaerung
 - `impressum.html` - Anbieterkennzeichnung
+- `en/` - englische Website-Version
 - `app-ads.txt` - AdMob-Verifizierung
 - `CNAME` - Custom Domain fuer GitHub Pages
 

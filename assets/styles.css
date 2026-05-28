@@ -45,7 +45,8 @@ a {
   z-index: 20;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 20px;
   min-height: 76px;
   padding: 0 5vw;
   background: rgba(10, 10, 10, .86);
@@ -54,9 +55,11 @@ a {
 }
 
 .brand {
+  order: 1;
   display: inline-flex;
   align-items: center;
   gap: 12px;
+  margin-right: auto;
   color: var(--text);
   font-weight: 800;
   text-decoration: none;
@@ -67,6 +70,7 @@ a {
 }
 
 .site-nav {
+  order: 2;
   display: flex;
   align-items: center;
   gap: 24px;
@@ -83,7 +87,39 @@ a {
   color: var(--gold);
 }
 
+.language-switch {
+  order: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, .05);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 850;
+}
+
+.language-switch a {
+  min-width: 34px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.language-switch a:hover {
+  color: var(--text);
+}
+
+.language-switch a[aria-current="true"] {
+  background: var(--gold);
+  color: #171309;
+}
+
 .nav-toggle {
+  order: 4;
   display: none;
   width: 44px;
   height: 44px;
@@ -623,6 +659,24 @@ h3 {
 @media (max-width: 720px) {
   .site-header {
     min-height: 68px;
+    gap: 10px;
+    padding: 0 4vw;
+  }
+
+  .brand span {
+    max-width: 42vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .language-switch {
+    font-size: .76rem;
+  }
+
+  .language-switch a {
+    min-width: 30px;
+    padding: 5px 6px;
   }
 
   .nav-toggle {
