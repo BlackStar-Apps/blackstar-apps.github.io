@@ -52,7 +52,11 @@ if (codeForm) {
     downloadName: codeForm.dataset.downloadName || "blackstar-code.png",
     payloadEmpty: codeForm.dataset.payloadEmpty || "No code content generated yet.",
     payloadQrTitle: codeForm.dataset.payloadQrTitle || "Content inside the QR code",
-    payloadBarcodeTitle: codeForm.dataset.payloadBarcodeTitle || "Content inside the barcode"
+    payloadBarcodeTitle: codeForm.dataset.payloadBarcodeTitle || "Content inside the barcode",
+    barcodeDigitsOnly: codeForm.dataset.barcodeDigitsOnly || "{format} accepts digits only.",
+    barcodeLengthError: codeForm.dataset.barcodeLengthError || "{format} needs {base} or {full} digits.",
+    barcodeChecksumError: codeForm.dataset.barcodeChecksumError || "{format} check digit does not match.",
+    barcodeCode128Error: codeForm.dataset.barcodeCode128Error || "Code 128 supports letters, numbers and common symbols."
   };
 
   const setStatus = (message, isError = false) => {
@@ -179,6 +183,15 @@ if (codeForm) {
     ITF14: { baseLength: 13, fullLength: 14 }
   };
 
+  class BarcodeValidationError extends Error {
+    constructor(message) {
+      super(message);
+      this.userMessage = message;
+    }
+  }
+
+  const formatBarcodeMessage = (template, values) => template.replace(/\{(\w+)\}/g, (_, key) => values[key] ?? "");
+
   const normalizeBarcodeValue = () => {
     const format = barcodeFormatSelect?.value || "CODE128";
     const value = barcodeContent?.value.trim() || "";
@@ -186,10 +199,24 @@ if (codeForm) {
 
     if (barcodeRules[format]) {
       const rule = barcodeRules[format];
-      const digits = value.replace(/\D/g, "");
+      const digits = value.replace(/[\s-]/g, "");
+      const values = { format, base: rule.baseLength, full: rule.fullLength };
+
+      if (/[^0-9]/.test(digits)) {
+        throw new BarcodeValidationError(formatBarcodeMessage(messages.barcodeDigitsOnly, values));
+      }
+
       if (digits.length === rule.baseLength) return digits + calculateGtinCheckDigit(digits);
       if (digits.length === rule.fullLength && calculateGtinCheckDigit(digits.slice(0, rule.baseLength)) === digits[rule.baseLength]) return digits;
-      throw new Error(`Invalid ${format}`);
+      if (digits.length === rule.fullLength) {
+        throw new BarcodeValidationError(formatBarcodeMessage(messages.barcodeChecksumError, values));
+      }
+
+      throw new BarcodeValidationError(formatBarcodeMessage(messages.barcodeLengthError, values));
+    }
+
+    if (format === "CODE128" && /[^\x20-\x7E]/.test(value)) {
+      throw new BarcodeValidationError(messages.barcodeCode128Error);
     }
 
     return value;
@@ -405,7 +432,7 @@ if (codeForm) {
       setPayloadPreview(payload, mode);
     } catch (error) {
       setOutputMessage(messages.errorOutput);
-      setStatus(modeSelect?.value === "barcode" ? messages.barcodeErrorStatus : messages.errorStatus, true);
+      setStatus(error.userMessage || (modeSelect?.value === "barcode" ? messages.barcodeErrorStatus : messages.errorStatus), true);
       setPayloadPreview("", modeSelect?.value || "qr");
     }
   };
