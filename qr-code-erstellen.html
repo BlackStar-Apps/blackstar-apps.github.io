@@ -52,7 +52,7 @@
       <div class="tool-panel">
         <p class="section-kicker">Web-Tool</p>
         <h2 id="code-tool-title">Code erstellen</h2>
-        <form id="code-generator" class="qr-form code-form" data-empty-output="Dein Code erscheint hier." data-empty-status="Noch kein Inhalt eingegeben." data-success-qr-status="QR-Code wurde lokal im Browser erstellt." data-success-barcode-status="Barcode wurde lokal im Browser erstellt." data-error-output="Der Inhalt ist zu lang oder konnte nicht erstellt werden." data-error-status="Bitte prüfe deine Eingaben." data-barcode-error-status="Der Barcode-Inhalt passt nicht zum gewählten Barcode-Typ." data-canvas-label="Erzeugter Code" data-download-name="blackstar-code.png" data-payload-empty="Noch kein Code-Inhalt erzeugt." data-payload-qr-title="Inhalt im QR-Code" data-payload-barcode-title="Inhalt im Barcode" data-barcode-digits-only="{format} darf nur Ziffern enthalten." data-barcode-length-error="{format} benötigt {base} oder {full} Ziffern." data-barcode-checksum-error="Die Prüfziffer von {format} passt nicht." data-barcode-code128-error="Code 128 unterstützt Buchstaben, Zahlen und einfache Sonderzeichen. Umlaute oder Emojis sind nicht geeignet." data-barcode-code128-length-error="Code 128 ist auf 64 Zeichen begrenzt, damit der Barcode gut lesbar bleibt." data-url-error="Bitte gib eine gültige Webadresse ein." data-email-error="Bitte gib eine gültige E-Mail-Adresse ein." data-wifi-ssid-error="Bitte gib einen WLAN-Namen ein." data-wifi-password-error="Bitte gib ein WLAN-Passwort ein oder wähle „Ohne Passwort“." data-phone-digits-error="Telefonnummern dürfen nur Ziffern und einfache Trennzeichen enthalten." data-phone-length-error="Bitte gib eine gültige Telefonnummer mit 6 bis 15 Ziffern ein." data-character-counter="{used}/{max} Zeichen · {remaining} frei">
+        <form id="code-generator" class="qr-form code-form" data-empty-output="Dein Code erscheint hier." data-empty-status="Noch kein Inhalt eingegeben." data-success-qr-status="QR-Code wurde lokal im Browser erstellt." data-success-barcode-status="Barcode wurde lokal im Browser erstellt." data-error-output="Der Inhalt ist zu lang oder konnte nicht erstellt werden." data-error-status="Bitte prüfe deine Eingaben." data-barcode-error-status="Der Barcode-Inhalt passt nicht zum gewählten Barcode-Typ." data-canvas-label="Erzeugter Code" data-download-name="blackstar-code.png" data-payload-empty="Noch kein Code-Inhalt erzeugt." data-payload-qr-title="Inhalt im QR-Code" data-payload-barcode-title="Inhalt im Barcode" data-barcode-digits-only="{format} darf nur Ziffern enthalten." data-barcode-length-error="{format} benötigt {base} oder {full} Ziffern." data-barcode-checksum-error="Die Prüfziffer von {format} passt nicht." data-barcode-code128-error="Code 128 unterstützt Buchstaben, Zahlen und einfache Sonderzeichen. Umlaute oder Emojis sind nicht geeignet." data-barcode-code128-length-error="Code 128 ist auf 64 Zeichen begrenzt, damit der Barcode gut lesbar bleibt." data-url-error="Bitte gib eine gültige Webadresse ein." data-email-error="Bitte gib eine gültige E-Mail-Adresse ein." data-wifi-ssid-error="Bitte gib einen WLAN-Namen ein." data-wifi-password-error="Bitte gib ein WLAN-Passwort ein oder wähle „Ohne Passwort“." data-phone-digits-error="Telefonnummern dürfen nur Ziffern und einfache Trennzeichen enthalten." data-phone-length-error="Bitte gib eine gültige Telefonnummer mit 6 bis 15 Ziffern ein." data-character-counter="{used}/{max} Zeichen · {remaining} frei" data-qr-text-label="Text" data-qr-url-label="Link / URL" data-qr-text-placeholder="Beliebiger Text" data-qr-url-placeholder="https://blackstar-apps.de">
           <div class="form-grid">
             <label>
               Code-Art
@@ -97,8 +97,8 @@
 
           <div data-mode-panel="qr">
             <label data-qr-panel="text url">
-              Text oder URL
-              <textarea id="qr-content" name="qr-content" rows="5" maxlength="1200" placeholder="https://blackstar-apps.de"></textarea>
+              <span id="qr-content-label">Text</span>
+              <textarea id="qr-content" name="qr-content" rows="5" maxlength="1200" placeholder="Beliebiger Text"></textarea>
             </label>
 
             <div class="form-grid" data-qr-panel="wifi" hidden>
@@ -143,7 +143,7 @@
             </div>
 
             <div class="form-grid" data-qr-panel="phone sms" hidden>
-              <label>
+              <label class="wide-field">
                 Ländervorwahl
                 <select id="phone-country" name="phone-country">
                   <option value="+49" selected>Deutschland (+49)</option>
@@ -165,7 +165,7 @@
                   <option value="+1">USA / Kanada (+1)</option>
                 </select>
               </label>
-              <label>
+              <label class="wide-field">
                 Telefonnummer
                 <input id="phone-number" name="phone-number" inputmode="tel" autocomplete="tel-national" maxlength="40" placeholder="123 456789">
               </label>

@@ -29,6 +29,7 @@ if (codeForm) {
   const modeSelect = $("#code-mode");
   const qrTypeSelect = $("#qr-type");
   const qrContent = $("#qr-content");
+  const qrContentLabel = $("#qr-content-label");
   const qrSizeSelect = $("#qr-size");
   const titleInput = $("#code-title");
   const descriptionInput = $("#code-description");
@@ -64,7 +65,11 @@ if (codeForm) {
     wifiPasswordError: codeForm.dataset.wifiPasswordError || "Please enter a Wi-Fi password or choose no password.",
     phoneDigitsError: codeForm.dataset.phoneDigitsError || "Phone numbers may contain digits and simple separators only.",
     phoneLengthError: codeForm.dataset.phoneLengthError || "Please enter a valid phone number with 6 to 15 digits.",
-    characterCounter: codeForm.dataset.characterCounter || "{used}/{max} characters · {remaining} left"
+    characterCounter: codeForm.dataset.characterCounter || "{used}/{max} characters · {remaining} left",
+    qrTextLabel: codeForm.dataset.qrTextLabel || "Text",
+    qrUrlLabel: codeForm.dataset.qrUrlLabel || "Link / URL",
+    qrTextPlaceholder: codeForm.dataset.qrTextPlaceholder || "Any text",
+    qrUrlPlaceholder: codeForm.dataset.qrUrlPlaceholder || "https://blackstar-apps.de"
   };
 
   const formatTemplate = (template, values) => template.replace(/\{(\w+)\}/g, (_, key) => values[key] ?? "");
@@ -164,6 +169,12 @@ if (codeForm) {
       const panels = (element.dataset.qrPanel || "").split(/\s+/);
       element.hidden = mode !== "qr" || !panels.includes(qrType);
     });
+
+    if (qrContentLabel && qrContent) {
+      const isUrl = qrType === "url";
+      qrContentLabel.textContent = isUrl ? messages.qrUrlLabel : messages.qrTextLabel;
+      qrContent.placeholder = isUrl ? messages.qrUrlPlaceholder : messages.qrTextPlaceholder;
+    }
   };
 
   const encodeWifiValue = (value) => String(value || "").replace(/([\\;,":])/g, "\\$1");
