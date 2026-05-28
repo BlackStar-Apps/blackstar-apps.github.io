@@ -21,3 +21,15 @@ http://localhost:8080
 - Google-Play-Link pruefen.
 - GitHub Pages aktivieren.
 - Bei IONOS die Domain `blackstar-apps.de` auf GitHub Pages zeigen lassen.
+
+## Dateien
+
+- `index.html` - Startseite
+- `qr-code-erstellen.html` - kostenloser lokaler QR-Code-Generator
+- `datenschutz.html` - Datenschutzerklaerung
+- `impressum.html` - Anbieterkennzeichnung
+- `app-ads.txt` - AdMob-Verifizierung
+- `CNAME` - Custom Domain fuer GitHub Pages
+
+Der Web-Generator verwendet die lokal gebuendelte MIT-lizenzierte Bibliothek
+`qrcode-generator` von Kazuhiko Arase.

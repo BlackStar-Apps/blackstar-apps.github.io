@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kostenlosen QR-Code erstellen - BlackStar Apps</title>
+  <meta name="description" content="Erstelle kostenlos einen einfachen QR-Code direkt im Browser. Die Eingabe bleibt lokal und kann als PNG heruntergeladen werden.">
+  <link rel="icon" href="assets/img/app-icon.png">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="BlackStar QR Scanner Startseite">
+      <img src="assets/img/app-icon.png" alt="" width="40" height="40">
+      <span>BlackStar QR Scanner</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Hauptnavigation">
+      <a href="index.html#funktionen">Funktionen</a>
+      <a href="qr-code-erstellen.html" aria-current="page">QR erstellen</a>
+      <a href="index.html#design">Designer</a>
+      <a href="index.html#screenshots">Screenshots</a>
+      <a href="datenschutz.html">Datenschutz</a>
+      <a href="impressum.html">Impressum</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="tool-hero">
+      <p class="eyebrow">Kostenloser QR-Code-Generator</p>
+      <h1>QR-Code direkt im Browser erstellen.</h1>
+      <p>
+        Gib einen Text oder Link ein, prüfe die Vorschau und lade den QR-Code als PNG herunter.
+        Die Eingabe wird nur lokal in deinem Browser verarbeitet.
+      </p>
+    </section>
+
+    <section class="section qr-tool" aria-labelledby="qr-tool-title">
+      <div class="tool-panel">
+        <p class="section-kicker">Web-Tool</p>
+        <h2 id="qr-tool-title">Einfacher QR-Code</h2>
+        <form id="qr-generator" class="qr-form">
+          <label for="qr-content">Text oder URL</label>
+          <textarea id="qr-content" name="qr-content" rows="7" maxlength="1200" placeholder="https://blackstar-apps.de"></textarea>
+
+          <div class="form-grid">
+            <label>
+              Größe
+              <select id="qr-size" name="qr-size">
+                <option value="512">512 px</option>
+                <option value="768" selected>768 px</option>
+                <option value="1024">1024 px</option>
+              </select>
+            </label>
+            <label>
+              Fehlerkorrektur
+              <select id="qr-level" name="qr-level">
+                <option value="M" selected>Normal</option>
+                <option value="Q">Hoch</option>
+                <option value="H">Sehr hoch</option>
+              </select>
+            </label>
+          </div>
+
+          <p class="tool-note">
+            Kostenlos und ohne Serverübertragung. Für Visitenkarten, Logos, Farben und Vorlagen
+            nutzt du am besten die Android-App.
+          </p>
+
+          <div class="tool-actions">
+            <button class="button primary" type="submit">QR-Code erstellen</button>
+            <a id="qr-download" class="button secondary disabled" href="#" aria-disabled="true">PNG herunterladen</a>
+          </div>
+        </form>
+      </div>
+
+      <div class="qr-preview-card" aria-live="polite">
+        <p class="section-kicker">Vorschau</p>
+        <div id="qr-output" class="qr-output">
+          <p>Dein QR-Code erscheint hier.</p>
+        </div>
+        <p id="qr-status" class="qr-status">Noch kein Inhalt eingegeben.</p>
+      </div>
+    </section>
+
+    <section class="section cta">
+      <div>
+        <p class="section-kicker">Mehr Möglichkeiten</p>
+        <h2>Design, Bibliothek und Scanner in der kostenlosen Android-App.</h2>
+      </div>
+      <a class="button primary" href="https://play.google.com/store/apps/details?id=de.blackstar.qrscanner">App bei Google Play ansehen</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> BlackStar Apps</p>
+    <div>
+      <a href="qr-code-erstellen.html">QR erstellen</a>
+      <a href="datenschutz.html">Datenschutz</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="mailto:blackstar.apps@outlook.de">Kontakt</a>
+    </div>
+  </footer>
+
+  <script src="assets/vendor/qrcode.js"></script>
+  <script src="assets/vendor/qrcode_UTF8.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
