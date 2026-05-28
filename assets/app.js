@@ -38,6 +38,8 @@ if (codeForm) {
   const output = document.querySelector("#qr-output");
   const status = document.querySelector("#qr-status");
   const download = document.querySelector("#qr-download");
+  const payloadTitle = document.querySelector("#code-payload-title");
+  const payloadPreview = document.querySelector("#code-payload");
 
   const messages = {
     emptyOutput: codeForm.dataset.emptyOutput || "Your code will appear here.",
@@ -48,7 +50,10 @@ if (codeForm) {
     errorStatus: codeForm.dataset.errorStatus || "Please check your input.",
     barcodeErrorStatus: codeForm.dataset.barcodeErrorStatus || "The barcode content does not match the selected barcode type.",
     canvasLabel: codeForm.dataset.canvasLabel || "Generated code",
-    downloadName: codeForm.dataset.downloadName || "blackstar-code.png"
+    downloadName: codeForm.dataset.downloadName || "blackstar-code.png",
+    payloadEmpty: codeForm.dataset.payloadEmpty || "No code content generated yet.",
+    payloadQrTitle: codeForm.dataset.payloadQrTitle || "Content inside the QR code",
+    payloadBarcodeTitle: codeForm.dataset.payloadBarcodeTitle || "Content inside the barcode"
   };
 
   const setStatus = (message, isError = false) => {
@@ -79,6 +84,16 @@ if (codeForm) {
     const text = document.createElement("p");
     text.textContent = message;
     output.appendChild(text);
+  };
+
+  const setPayloadPreview = (payload, mode) => {
+    if (payloadTitle) {
+      payloadTitle.textContent = mode === "barcode" ? messages.payloadBarcodeTitle : messages.payloadQrTitle;
+    }
+
+    if (payloadPreview) {
+      payloadPreview.textContent = payload || messages.payloadEmpty;
+    }
   };
 
   const syncFields = () => {
@@ -149,12 +164,20 @@ if (codeForm) {
     return value;
   };
 
-  const calculateEan13CheckDigit = (digits12) => {
-    const sum = digits12
+  const calculateGtinCheckDigit = (digits) => {
+    const sum = digits
       .split("")
+      .reverse()
       .map(Number)
-      .reduce((total, digit, index) => total + digit * (index % 2 === 0 ? 1 : 3), 0);
+      .reduce((total, digit, index) => total + digit * (index % 2 === 0 ? 3 : 1), 0);
     return String((10 - (sum % 10)) % 10);
+  };
+
+  const barcodeRules = {
+    EAN13: { baseLength: 12, fullLength: 13 },
+    EAN8: { baseLength: 7, fullLength: 8 },
+    UPC: { baseLength: 11, fullLength: 12 },
+    ITF14: { baseLength: 13, fullLength: 14 }
   };
 
   const normalizeBarcodeValue = () => {
@@ -162,11 +185,12 @@ if (codeForm) {
     const value = barcodeContent?.value.trim() || "";
     if (!value) return "";
 
-    if (format === "EAN13") {
+    if (barcodeRules[format]) {
+      const rule = barcodeRules[format];
       const digits = value.replace(/\D/g, "");
-      if (digits.length === 12) return digits + calculateEan13CheckDigit(digits);
-      if (digits.length === 13 && calculateEan13CheckDigit(digits.slice(0, 12)) === digits[12]) return digits;
-      throw new Error("Invalid EAN-13");
+      if (digits.length === rule.baseLength) return digits + calculateGtinCheckDigit(digits);
+      if (digits.length === rule.fullLength && calculateGtinCheckDigit(digits.slice(0, rule.baseLength)) === digits[rule.baseLength]) return digits;
+      throw new Error(`Invalid ${format}`);
     }
 
     return value;
@@ -326,6 +350,7 @@ if (codeForm) {
     const mode = modeSelect?.value || "qr";
     output.textContent = "";
     disableDownload();
+    setPayloadPreview("", mode);
 
     try {
       const requestedSize = Number(qrSizeSelect?.value || 768);
@@ -337,6 +362,7 @@ if (codeForm) {
         if (!payload) {
           setOutputMessage(messages.emptyOutput);
           setStatus(messages.emptyStatus);
+          setPayloadPreview("", mode);
           return;
         }
         codeCanvas = await createBarcodeCanvas(payload, barcodeFormatSelect?.value || "CODE128", requestedSize);
@@ -345,6 +371,7 @@ if (codeForm) {
         if (!payload) {
           setOutputMessage(messages.emptyOutput);
           setStatus(messages.emptyStatus);
+          setPayloadPreview("", mode);
           return;
         }
         codeCanvas = createQrCanvas(payload, requestedSize);
@@ -354,9 +381,11 @@ if (codeForm) {
       output.appendChild(cardCanvas);
       enableDownload(cardCanvas, mode);
       setStatus(mode === "barcode" ? messages.successBarcodeStatus : messages.successQrStatus);
+      setPayloadPreview(payload, mode);
     } catch (error) {
       setOutputMessage(messages.errorOutput);
       setStatus(modeSelect?.value === "barcode" ? messages.barcodeErrorStatus : messages.errorStatus, true);
+      setPayloadPreview("", modeSelect?.value || "qr");
     }
   };
 
@@ -383,4 +412,5 @@ if (codeForm) {
 
   syncFields();
   disableDownload();
+  setPayloadPreview("", modeSelect?.value || "qr");
 }

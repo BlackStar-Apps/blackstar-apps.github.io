@@ -52,7 +52,7 @@
       <div class="tool-panel">
         <p class="section-kicker">Web-Tool</p>
         <h2 id="code-tool-title">Code erstellen</h2>
-        <form id="code-generator" class="qr-form code-form" data-empty-output="Dein Code erscheint hier." data-empty-status="Noch kein Inhalt eingegeben." data-success-qr-status="QR-Code wurde lokal im Browser erstellt." data-success-barcode-status="Barcode wurde lokal im Browser erstellt." data-error-output="Der Inhalt ist zu lang oder konnte nicht erstellt werden." data-error-status="Bitte prüfe deine Eingaben." data-barcode-error-status="Der Barcode-Inhalt passt nicht zum gewählten Barcode-Typ." data-canvas-label="Erzeugter Code" data-download-name="blackstar-code.png">
+        <form id="code-generator" class="qr-form code-form" data-empty-output="Dein Code erscheint hier." data-empty-status="Noch kein Inhalt eingegeben." data-success-qr-status="QR-Code wurde lokal im Browser erstellt." data-success-barcode-status="Barcode wurde lokal im Browser erstellt." data-error-output="Der Inhalt ist zu lang oder konnte nicht erstellt werden." data-error-status="Bitte prüfe deine Eingaben." data-barcode-error-status="Der Barcode-Inhalt passt nicht zum gewählten Barcode-Typ." data-canvas-label="Erzeugter Code" data-download-name="blackstar-code.png" data-payload-empty="Noch kein Code-Inhalt erzeugt." data-payload-qr-title="Inhalt im QR-Code" data-payload-barcode-title="Inhalt im Barcode">
           <div class="form-grid">
             <label>
               Code-Art
@@ -77,6 +77,9 @@
               <select id="barcode-format" name="barcode-format">
                 <option value="CODE128" selected>Code 128</option>
                 <option value="EAN13">EAN-13</option>
+                <option value="EAN8">EAN-8</option>
+                <option value="UPC">UPC-A</option>
+                <option value="ITF14">ITF-14</option>
               </select>
             </label>
           </div>
@@ -154,18 +157,19 @@
               <input id="barcode-content" name="barcode-content" maxlength="80" placeholder="ART-2026-001">
             </label>
             <p class="field-hint">
-              Code 128 eignet sich für interne Artikelnummern. EAN-13 benötigt 12 oder 13 Ziffern;
-              bei 12 Ziffern wird die Prüfziffer ergänzt.
+              Code 128 eignet sich für interne Artikelnummern. EAN-13, EAN-8, UPC-A und ITF-14
+              benötigen nur Ziffern; wenn die Prüfziffer fehlt, wird sie ergänzt.
             </p>
           </div>
 
           <div class="form-grid">
             <label>
-              Größe
+              Ausgabeformat
               <select id="qr-size" name="qr-size">
-                <option value="512">512 px</option>
-                <option value="768" selected>768 px</option>
-                <option value="1024">1024 px</option>
+                <option value="512">Kompakt (512 px)</option>
+                <option value="768" selected>Standard (768 px)</option>
+                <option value="1024">Groß (1024 px)</option>
+                <option value="1536">Druck (1536 px)</option>
               </select>
             </label>
             <label data-mode-field="qr">
@@ -176,6 +180,10 @@
                 <option value="H">Sehr hoch</option>
               </select>
             </label>
+            <p class="field-hint wide-field" data-mode-field="qr">
+              Fehlerkorrektur macht QR-Codes robuster, wenn sie leicht beschädigt, verdeckt oder schlecht gedruckt sind.
+              Höhere Stufen können den QR-Code dichter machen; „Normal“ ist für die meisten Fälle passend.
+            </p>
           </div>
 
           <p class="tool-note">
@@ -196,6 +204,10 @@
           <p>Dein Code erscheint hier.</p>
         </div>
         <p id="qr-status" class="qr-status">Noch kein Inhalt eingegeben.</p>
+        <div class="payload-preview">
+          <h3 id="code-payload-title">Inhalt im Code</h3>
+          <pre id="code-payload">Noch kein Code-Inhalt erzeugt.</pre>
+        </div>
       </div>
     </section>
 

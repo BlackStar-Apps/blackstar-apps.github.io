@@ -646,6 +646,29 @@ h3 {
   color: #ffb4a8;
 }
 
+.payload-preview {
+  margin-top: 18px;
+  padding: 16px;
+  background: #101010;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.payload-preview h3 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+}
+
+.payload-preview pre {
+  max-height: 220px;
+  margin: 0;
+  overflow: auto;
+  color: var(--muted);
+  font: .88rem/1.5 ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
 .notice {
   padding: 18px;
   color: var(--muted);
