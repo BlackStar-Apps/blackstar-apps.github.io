@@ -211,9 +211,30 @@ h3 {
 
 .hero-copy {
   width: min(660px, 100%);
-  margin-bottom: 30px;
+  margin-bottom: 22px;
   color: var(--muted);
   font-size: clamp(1.05rem, 2vw, 1.35rem);
+}
+
+.hero-benefits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: min(720px, 100%);
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+}
+
+.hero-benefits li {
+  padding: 9px 12px;
+  border: 1px solid rgba(214, 173, 40, .38);
+  border-radius: 999px;
+  background: rgba(18, 18, 18, .58);
+  color: var(--text);
+  font-size: .95rem;
+  font-weight: 800;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .22);
 }
 
 .free-note,
@@ -781,6 +802,20 @@ h3 {
   .hero {
     min-height: 680px;
     padding-bottom: 48px;
+  }
+
+  .hero-benefits {
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .hero-benefits li {
+    padding: 8px 10px;
+    font-size: .86rem;
+  }
+
+  .hero-actions .button {
+    width: 100%;
   }
 
   .hero-overlay {
